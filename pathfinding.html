@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Interactive BFS and DFS pathfinding visualizer." />
+  <title>DSA Genie AI | Pathfinding Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles/main.css" />
+  <link rel="stylesheet" href="assets/styles/pages.css" />
+</head>
+<body>
+  <div class="page-shell page-shell--lab">
+    <header class="page-header compact">
+      <div>
+        <p class="eyebrow">DSA Genie AI</p>
+        <div class="brand-row"><div class="logo">DSA<span class="logo-dot">.</span>Genie AI</div></div>
+      </div>
+      <nav class="header-nav" aria-label="Primary">
+        <a class="nav-link" href="index.html">Project Home</a>
+        <a class="nav-link nav-button" href="lab.html">Sorting Lab</a>
+        <a class="nav-link nav-button" href="pathfinding.html">Pathfinding Lab</a>
+      </nav>
+    </header>
+
+    <section class="lab-shell">
+      <div class="lab-head">
+        <div><p class="eyebrow">Interactive Workspace</p><h2>Pathfinding Lab</h2></div>
+      </div>
+      <main class="app-layout">
+        <section class="workspace-panel">
+          <div class="section-card toolbar-card">
+            <div class="toolbar-head">
+              <div><p class="eyebrow">Graph traversal</p><h1>Watch a frontier find its way through the grid</h1></div>
+              <p class="toolbar-note">Draw walls, choose BFS or DFS, and step through the search from Start to End.</p>
+            </div>
+            <div class="controls-grid path-controls">
+              <div class="field select-field">
+                <label class="field-label" for="path-algorithm">Algorithm</label>
+                <select id="path-algorithm">
+                  <option value="bfs">Breadth-First Search</option>
+                  <option value="dfs">Depth-First Search</option>
+                </select>
+              </div>
+              <div class="field range-field">
+                <div class="field-row"><label class="field-label" for="path-speed">Playback speed</label><output class="field-output" id="path-speed-value">5x</output></div>
+                <input type="range" id="path-speed" min="1" max="10" value="5" />
+              </div>
+              <div class="field path-edit-tools">
+                <span class="field-label">Board tools</span>
+                <div class="path-tool-row">
+                  <button class="mini-btn active" id="tool-wall" type="button">Draw Walls</button>
+                  <button class="mini-btn" id="tool-start" type="button">Place Start</button>
+                  <button class="mini-btn" id="tool-end" type="button">Place End</button>
+                </div>
+              </div>
+            </div>
+            <div class="button-row">
+              <button class="btn primary" id="path-play" type="button">Play</button>
+              <button class="btn" id="path-step" type="button">Step</button>
+              <button class="btn" id="path-restart" type="button">Restart Same Board</button>
+              <button class="btn" id="clear-walls" type="button">Clear Walls</button>
+              <button class="btn" id="clear-board" type="button">Clear Board</button>
+            </div>
+          </div>
+
+          <div class="section-card path-viz-card">
+            <div class="viz-head"><div><p class="eyebrow">Active search</p><h2 id="path-status-title">Ready to explore</h2></div><div class="chip-row"><span class="meta-chip" id="path-summary">BFS · 20 × 30 grid</span></div></div>
+            <div class="path-grid" id="path-grid" role="grid" aria-label="Pathfinding grid"></div>
+            <div class="stats-grid path-stats">
+              <div class="stat-item"><span class="stat-label">Visited</span><strong class="stat-value" id="path-visited">0</strong></div>
+              <div class="stat-item"><span class="stat-label">Frontier</span><strong class="stat-value" id="path-frontier">0</strong></div>
+              <div class="stat-item"><span class="stat-label">Steps</span><strong class="stat-value"><span id="path-step-count">0</span> / <span id="path-total">0</span></strong></div>
+              <div class="stat-item status-card"><span class="stat-label">Status</span><strong class="status-pill ready" id="path-run-status">Ready</strong></div>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="path-progress"></div></div>
+            <section class="step-explanation" aria-labelledby="path-explanation-title">
+              <div class="step-explanation-head"><div><p class="eyebrow">Live step explanation</p><h3 id="path-explanation-title">Waiting for a step</h3></div></div>
+              <p class="step-current" id="path-explanation">Press Play or Step to begin.</p>
+            </section>
+          </div>
+        </section>
+
+        <aside class="info-panel">
+          <div class="section-card"><p class="eyebrow">Complexity</p><div class="complexity-card" id="path-complexity"></div></div>
+          <div class="section-card"><p class="eyebrow">How it works</p><div class="desc-card"><p id="path-description"></p><ul class="steps-list" id="path-steps"></ul></div></div>
+          <div class="section-card"><p class="eyebrow">Best used for</p><div class="tags" id="path-tags"></div></div>
+          <div class="section-card tip-card"><p class="eyebrow">Project notes</p><ul class="tip-list"><li>BFS uses a queue and finds shortest paths on unweighted grids.</li><li>DFS uses a stack and is useful for exploration and connectivity.</li><li>Walls and endpoints can be edited before each run.</li></ul></div>
+        </aside>
+      </main>
+    </section>
+  </div>
+  <script type="module" src="assets/scripts/pathfinding.js"></script>
+</body>
+</html>

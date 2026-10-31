@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Interactive DSA sorting visualizer lab with fair same-array comparisons, live metrics, and compare mode."
+    />
+    <title>DSA Genie AI | Sorting Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles/main.css" />
+    <link rel="stylesheet" href="assets/styles/pages.css" />
+  </head>
+  <body>
+    <div class="page-shell page-shell--lab">
+      <header class="page-header compact">
+        <div>
+          <p class="eyebrow">DSA Genie AI</p>
+          <div class="brand-row">
+            <div class="logo">DSA<span class="logo-dot">.</span>Genie AI</div>
+          </div>
+        </div>
+
+        <nav class="header-nav" aria-label="Primary">
+          <a class="nav-link" href="index.html">Project Home</a>
+          <button
+            class="nav-link nav-button"
+            type="button"
+            data-open-workspace="visualizer"
+          >
+            Visualizer
+          </button>
+          <button
+            class="nav-link nav-button"
+            type="button"
+            data-open-workspace="compare"
+          >
+            Compare Mode
+          </button>
+          <button
+            class="nav-link nav-button"
+            type="button"
+            data-open-workspace="race"
+          >
+            Race Mode
+          </button>
+        </nav>
+      </header>
+
+      <section class="lab-shell" id="lab-section">
+        <div class="lab-head">
+          <div>
+            <p class="eyebrow">Interactive Workspace</p>
+            <h2>Sorting Lab</h2>
+          </div>
+          <!-- <p class="lab-note">
+          This page stays focused on the live visualizer, while the separate homepage explains
+          what the project is building and why it exists.
+        </p> -->
+        </div>
+
+        <main class="app-layout">
+          <section class="workspace-panel">
+            <div class="section-card toolbar-card">
+              <div class="toolbar-head">
+                <div>
+                  <p class="eyebrow">Interactive lab</p>
+                  <h1>Watch, compare, and stress-test each sorting strategy</h1>
+                </div>
+                <p class="toolbar-note">
+                  Use the visualizer to step through one algorithm, or switch to
+                  compare mode to rank them all on the same array by
+                  comparisons, writes, or total steps.
+                </p>
+              </div>
+
+              <div
+                class="algo-tabs"
+                id="algo-tabs"
+                role="tablist"
+                aria-label="Sorting algorithms"
+              ></div>
+
+              <div
+                class="mode-switch"
+                id="view-mode"
+                role="tablist"
+                aria-label="Workspace view"
+              >
+                <button
+                  class="mode-tab active"
+                  type="button"
+                  data-mode="visualizer"
+                  role="tab"
+                  aria-selected="true"
+                >
+                  Visualizer
+                </button>
+                <button
+                  class="mode-tab"
+                  type="button"
+                  data-mode="compare"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  Compare Mode
+                </button>
+                <button
+                  class="mode-tab"
+                  type="button"
+                  data-mode="race"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  Race Mode
+                </button>
+              </div>
+
+              <div class="controls-grid">
+                <div class="field select-field">
+                  <label class="field-label" for="array-preset"
+                    >Input pattern</label
+                  >
+                  <select
+                    id="array-preset"
+                    aria-label="Choose an input pattern"
+                  ></select>
+                </div>
+
+                <div class="field range-field">
+                  <div class="field-row">
+                    <label class="field-label" for="speed"
+                      >Playback speed</label
+                    >
+                    <output class="field-output" id="speed-val" for="speed"
+                      >5x</output
+                    >
+                  </div>
+                  <input
+                    type="range"
+                    id="speed"
+                    min="1"
+                    max="10"
+                    value="5"
+                    step="1"
+                  />
+                </div>
+
+                <div class="field range-field">
+                  <div class="field-row">
+                    <label class="field-label" for="size">Array size</label>
+                    <output class="field-output" id="size-val" for="size"
+                      >30 bars</output
+                    >
+                  </div>
+                  <input
+                    type="range"
+                    id="size"
+                    min="8"
+                    max="60"
+                    value="30"
+                    step="1"
+                  />
+                </div>
+              </div>
+
+              <div
+                class="field custom-array-field is-hidden"
+                id="custom-array-field"
+              >
+                <label class="field-label" for="custom-array"
+                  >Custom array values</label
+                >
+                <input
+                  id="custom-array"
+                  type="text"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  placeholder="Example: 45, 12, 89, 3, 67"
+                  aria-describedby="custom-array-help custom-array-error"
+                />
+                <p class="field-help" id="custom-array-help">
+                  Enter 2 to 50 comma-separated numbers.
+                </p>
+                <p
+                  class="field-error"
+                  id="custom-array-error"
+                  role="alert"
+                  aria-live="polite"
+                ></p>
+              </div>
+
+              <div class="button-row">
+                <button
+                  class="btn primary"
+                  id="btn-play"
+                  type="button"
+                  aria-pressed="false"
+                >
+                  Play
+                </button>
+                <button class="btn" id="btn-step" type="button">Step</button>
+                <button class="btn" id="btn-reset" type="button">
+                  Regenerate
+                </button>
+                <button class="btn" id="btn-restart" type="button">
+                  Restart Same Input
+                </button>
+              </div>
+            </div>
+
+            <div class="section-card viz-card" id="viz-card">
+              <div class="viz-head">
+                <div>
+                  <p class="eyebrow">Active run</p>
+                  <h2 id="active-algo-label">Bubble Sort</h2>
+                </div>
+
+                <div class="chip-row">
+                  <span class="meta-chip" id="input-summary"
+                    >Random input - 30 bars</span
+                  >
+                  <span class="meta-chip">Fair algorithm comparison</span>
+                </div>
+              </div>
+
+              <div class="viz-container">
+                <div
+                  class="bar-area"
+                  id="bar-area"
+                  role="img"
+                  aria-label="Bar chart showing the current array state"
+                ></div>
+                <div class="axis-line"></div>
+              </div>
+
+              <div class="progress-block" aria-label="Playback progress">
+                <div class="progress-track">
+                  <div class="progress-fill" id="progress-fill"></div>
+                </div>
+              </div>
+
+              <div class="stats-grid">
+                <div class="stat-item">
+                  <span class="stat-label">Comparisons</span>
+                  <strong class="stat-value" id="st-cmp">0</strong>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Writes</span>
+                  <strong class="stat-value" id="st-wrt">0</strong>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Steps</span>
+                  <strong class="stat-value"
+                    ><span id="st-step">0</span> /
+                    <span id="st-total">0</span></strong
+                  >
+                </div>
+                <div class="stat-item status-card">
+                  <span class="stat-label">Status</span>
+                  <strong
+                    class="status-pill ready"
+                    id="st-status"
+                    role="status"
+                    aria-live="polite"
+                    >Ready</strong
+                  >
+                </div>
+              </div>
+
+              <p class="log-line" id="log-line" aria-live="polite">
+                Generate an array and press Play to start the walkthrough.
+              </p>
+
+              <section
+                class="step-explanation"
+                aria-labelledby="step-explanation-title"
+              >
+                <div class="step-explanation-head">
+                  <div>
+                    <p class="eyebrow">Live step explanation</p>
+                    <h3 id="step-explanation-title">Waiting for a step</h3>
+                  </div>
+                  <div class="step-stat-chips" aria-label="Live step counters">
+                    <span class="step-stat-chip"
+                      >Comparisons <strong id="step-cmp">0</strong></span
+                    >
+                    <span class="step-stat-chip"
+                      >Swaps <strong id="step-swp">0</strong></span
+                    >
+                  </div>
+                </div>
+                <p class="step-current" id="step-current" aria-live="polite">
+                  Press Play or Step to begin.
+                </p>
+                <ol
+                  class="step-history"
+                  id="step-history"
+                  aria-label="Recent algorithm steps"
+                ></ol>
+              </section>
+
+              <div class="legend" aria-label="Color legend">
+                <div class="legend-item">
+                  <span class="legend-dot comparing-dot"></span>Comparing
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot writing-dot"></span>Writing
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot sorted-dot"></span>Sorted
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot pivot-dot"></span>Pivot
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot min-dot"></span>Minimum
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot unsorted-dot"></span>Unsorted
+                </div>
+              </div>
+            </div>
+
+            <div class="section-card compare-card is-hidden" id="compare-card">
+              <div class="compare-head">
+                <div>
+                  <p class="eyebrow">Compare mode</p>
+                  <h2>Rank every algorithm on the same input array</h2>
+                </div>
+
+                <div class="compare-controls">
+                  <label class="field-label" for="compare-metric"
+                    >Rank by</label
+                  >
+                  <select
+                    id="compare-metric"
+                    aria-label="Choose how to rank algorithms"
+                  >
+                    <option value="comparisons">Comparisons</option>
+                    <option value="writes">Writes</option>
+                    <option value="steps">Steps</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="compare-summary" id="compare-summary"></div>
+              <div class="compare-grid" id="compare-grid"></div>
+            </div>
+
+            <div class="section-card race-card is-hidden" id="race-card">
+              <div class="race-head">
+                <div>
+                  <p class="eyebrow">Race mode</p>
+                  <h2>Run algorithms side by side on the same input</h2>
+                  <p>
+                    Winner: the algorithm that completes in the fewest recorded
+                    animation steps.
+                  </p>
+                </div>
+                <div class="race-actions">
+                  <button class="btn primary" id="btn-race-play" type="button">
+                    Start Race
+                  </button>
+                  <button class="btn" id="btn-race-restart" type="button">
+                    Restart Race
+                  </button>
+                </div>
+              </div>
+              <div
+                class="race-picker"
+                id="race-picker"
+                aria-label="Choose two to four algorithms for the race"
+              ></div>
+              <p
+                class="field-error race-error"
+                id="race-error"
+                role="alert"
+                aria-live="polite"
+              ></p>
+              <div
+                class="race-result"
+                id="race-result"
+                aria-live="polite"
+              ></div>
+              <div class="race-grid" id="race-grid"></div>
+            </div>
+          </section>
+
+          <aside class="info-panel">
+            <div class="section-card">
+              <p class="eyebrow">Complexity</p>
+              <div class="complexity-card" id="complexity-card"></div>
+            </div>
+
+            <div class="section-card">
+              <p class="eyebrow">How it works</p>
+              <div class="desc-card">
+                <p id="algo-desc"></p>
+                <ul class="steps-list" id="algo-steps"></ul>
+              </div>
+            </div>
+
+            <div class="section-card">
+              <p class="eyebrow">Best used for</p>
+              <div class="tags" id="algo-tags"></div>
+            </div>
+
+            <div class="section-card tip-card">
+              <p class="eyebrow">Project notes</p>
+              <ul class="tip-list">
+                <li>The project overview now lives on its own homepage.</li>
+                <li>Algorithm switches keep the same input array.</li>
+                <li>Compare mode ranks all algorithms on identical input.</li>
+                <li>Heap Sort and Shell Sort are part of the visualizer.</li>
+                <li>Metrics track comparisons and writes consistently.</li>
+              </ul>
+            </div>
+          </aside>
+        </main>
+      </section>
+    </div>
+
+    <button
+      class="tutor-launcher"
+      id="tutor-launcher"
+      type="button"
+      aria-expanded="false"
+      aria-controls="tutor-panel"
+    >
+      Ask the DSA Tutor
+    </button>
+
+    <aside
+      class="tutor-panel is-hidden"
+      id="tutor-panel"
+      aria-label="AI Algorithm Tutor"
+    >
+      <div class="tutor-panel-head">
+        <div>
+          <p class="eyebrow">AI Algorithm Tutor</p>
+          <h2>Ask about what is on screen</h2>
+        </div>
+        <button
+          class="tutor-close"
+          id="tutor-close"
+          type="button"
+          aria-label="Close tutor"
+        >
+          ×
+        </button>
+      </div>
+      <div
+        class="tutor-messages"
+        id="tutor-messages"
+        role="log"
+        aria-live="polite"
+      >
+        <p class="tutor-empty">
+          Ask a question about the active algorithm, its complexity, or the
+          current step.
+        </p>
+      </div>
+      <div
+        class="tutor-prompts"
+        id="tutor-prompts"
+        aria-label="Suggested tutor questions"
+      >
+        <button type="button" data-tutor-prompt="Explain this step.">
+          Explain this step
+        </button>
+        <button type="button" data-tutor-prompt="Why is this the worst case?">
+          Why is this the worst case?
+        </button>
+        <button
+          type="button"
+          data-tutor-prompt="Suggest a better algorithm for this input."
+        >
+          Suggest a better algorithm
+        </button>
+        <button
+          type="button"
+          data-tutor-prompt="When should I use this instead of Quick Sort?"
+        >
+          Compare with Quick Sort
+        </button>
+      </div>
+      <form class="tutor-form" id="tutor-form">
+        <label class="sr-only" for="tutor-input">DSA AI</label>
+        <input
+          id="tutor-input"
+          type="text"
+          autocomplete="off"
+          placeholder="Ask a question..."
+        />
+        <button
+          class="btn tutor-mic"
+          id="tutor-mic"
+          type="button"
+          aria-label="Ask by voice"
+          aria-pressed="false"
+          title="Ask by voice"
+        >
+          🎙
+        </button>
+        <button class="btn primary" id="tutor-send" type="submit">Send</button>
+      </form>
+    </aside>
+
+    <script type="module" src="assets/scripts/app.js"></script>
+  </body>
+</html>
