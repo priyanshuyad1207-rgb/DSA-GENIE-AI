@@ -235,12 +235,7 @@ Ideas and bug reports are welcome in [Issues](../../issues).
 
 ---
 
-## 👥 Team
 
-| Name | Role | GitHub |
-|---|---|---|
-| **Priyanshu** | Developer | [@priyanshuyad1207-rgb](https://github.com/priyanshuyad1207-rgb) |
-| **Teammate Name** | Developer | [@username](https://github.com/username) |
 
 **Supervisor:** Prof. Name, Department, Institution
 
