@@ -82,11 +82,14 @@ A dedicated page per sorting algorithm with a description, complexity, use cases
 
 | Homepage | Sorting Lab |
 |---|---|
-| ![Home](assets/home.png) | ![Sorting Lab](assets/sorting-lab.png) |
+| ![Home]( <img width="1564" height="798" alt="WhatsApp Image 2026-11-10 at 15 16 51 (1)" src="https://github.com/user-attachments/assets/69d61d85-06da-4d68-8481-882b21846000" />
+) | ![Sorting Lab](<img width="1550" height="806" alt="WhatsApp Image 2026-11-10 at 15 16 51" src="https://github.com/user-attachments/assets/a3f58d38-2d4d-4a0a-9d01-1a317e83703f" />
+) |
 
-| Compare / Race Mode | Pathfinding Lab |
+| Compare / Race Mode | 
 |---|---|
-| ![Race](assets/race.png) | ![Pathfinding](assets/pathfinding.png) |
+| ![Compare](<img width="1560" height="802" alt="WhatsApp Image 2026-11-10 at 15 16 50" src="https://github.com/user-attachments/assets/6a575ed5-6ea7-4ef7-ac85-8f2da35dc5cb" />
+) | 
 
 ---
 
