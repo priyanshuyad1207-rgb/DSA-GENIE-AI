@@ -1,6 +1,6 @@
 
 
-                                          # 🧞 DSA Genie AI
+ # 🧞 DSA Genie AI
 
 ### See how algorithms think.
 
